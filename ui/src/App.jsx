@@ -17,11 +17,11 @@ import ProfilePage from "./pages/ProfilePage";
 import CartPage from "./pages/CartPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import ConfirmPage from "./pages/ConfirmPage";
-import AdminPage from "./pages/AdminDashboard";
 import MessagePage from "./pages/MessagePage";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
 import AdminPresPage from "./pages/AdminPresPage";
+import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
   const router = createBrowserRouter(
@@ -35,7 +35,7 @@ function App() {
           <Route path="/add-product" element={<AddProductPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order" element={<ConfirmPage />} />
-          <Route path="/admin" element={<AdminPage />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/message" element={<MessagePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutPage />} />

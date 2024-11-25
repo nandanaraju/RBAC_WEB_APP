@@ -6,9 +6,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { verifyToken, authorizeRoles } = require('../middleware/authMiddleware');
 
-
-
-
+// Add User Route (Admin Only)
 router.post('/add-user', verifyToken, authorizeRoles('admin'), async (req, res) => {
     try {
         const { username, password, email, userType } = req.body;
@@ -43,20 +41,26 @@ router.get('/users', verifyToken, authorizeRoles('admin'), async (req, res) => {
 router.get('/inventory', verifyToken, authorizeRoles('pharmacist'), async (req, res) => {
     res.json({ message: 'Pharmacist inventory data' });
 });
+
 // Sign Up Route
 router.post('/register', async (req, res) => {
     try {
-        const { username, password, email, userType } = req.body;
+        const { username, password, email, userType, adminPassphrase } = req.body;
 
         if (!username || !password || !email || !userType) {
             return res.status(400).json({ error: 'All fields are required' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const user = new User({ username, password: hashedPassword, email, userType });
-        await user.save();
+        if (userType === 'admin' && adminPassphrase !== process.env.ADMIN_PASSPHRASE) {
+            return res.status(400).json({ error: 'Incorrect admin passphrase' });
+        }
 
-        res.status(201).json({ message: 'User registered successfully' });
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ username, password: hashedPassword, email, userType });
+
+        await newUser.save();
+
+        res.status(201).json({ message: `${userType} registered successfully` });
     } catch (error) {
         console.error('Registration error:', error);
         res.status(500).json({ error: 'Registration failed' });
@@ -66,7 +70,7 @@ router.post('/register', async (req, res) => {
 // Login Route
 router.post('/login', async (req, res) => {
     try {
-        const { username, password, adminPassphrase } = req.body;
+        const { username, password } = req.body;
 
         if (!username || !password) {
             return res.status(400).json({ error: 'Username and password are required' });
@@ -82,11 +86,6 @@ router.post('/login', async (req, res) => {
 
         if (!passwordMatch) {
             return res.status(401).json({ error: 'Authentication failed - Password doesn\'t match' });
-        }
-
-        // Check admin passphrase if user is an admin
-        if (user.userType === 'admin' && adminPassphrase !== process.env.ADMIN_PASSPHRASE) {
-            return res.status(401).json({ error: 'Admin authentication failed - Incorrect passphrase' });
         }
 
         const token = jwt.sign(
@@ -108,6 +107,7 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Logout Route
 router.get('/logout', (req, res) => {
     res.clearCookie('Authtoken');
     res.status(200).send('Logout successful');

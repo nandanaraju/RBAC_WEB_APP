@@ -1,47 +1,54 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useNavigate,Link } from "react-router-dom";
 
-const SignupPage = () => {
-    const [username, setUserName] = useState("");
-    const [email, setEmail] = useState("");
+const SignUpPage = () => {
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [userType, setUserType] = useState("user"); // Default to 'user'
+    const [email, setEmail] = useState("");
+    const [userType, setUserType] = useState("user"); // Default is user
+    const [adminPassphrase, setAdminPassphrase] = useState("");
     const navigate = useNavigate();
 
-    const signupSubmit = async (userDetails) => {
+    const registerSubmit = async (e) => {
+        e.preventDefault();
+
+        // Prepare the form data
+        const userData = {
+            username,
+            password,
+            email,
+            userType,
+            adminPassphrase: userType === "admin" ? adminPassphrase : undefined, // Include only for admin
+        };
+
         try {
             const res = await fetch("/api/register", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(userDetails),
+                body: JSON.stringify(userData),
             });
 
             if (res.ok) {
-                toast.success("Signup successful");
-                navigate("/login");
+                const data = await res.json();
+                toast.success(`${userType} registered successfully`);
+
+                // Redirect based on user type
+                if (userType === "admin") {
+                    navigate("/admin-dashboard");
+                } else {
+                    navigate("/login");
+                }
             } else {
                 const { error } = await res.json();
-                toast.error(error || "Please check the input data");
+                toast.error(error || "Registration failed");
             }
         } catch (error) {
-            console.error("Signup error:", error);
-            toast.error("An error occurred. Please try again.");
+            console.error("Registration error:", error);
+            toast.error("An error occurred during registration. Please try again.");
         }
-    };
-
-    const submitForm = (e) => {
-        e.preventDefault();
-        const userDetails = {
-            username,
-            password,
-            email,
-            userType,
-        };
-
-        signupSubmit(userDetails);
     };
 
     return (
@@ -49,13 +56,13 @@ const SignupPage = () => {
             <div className="bg-white shadow-lg rounded-lg flex max-w-4xl w-full">
                 {/* Left Section */}
                 <div className="w-1/2 bg-teal-100 p-8 flex flex-col justify-center items-center rounded-l-lg">
-                    <h2 className="text-2xl font-bold text-gray-700 mb-4">Welcome Back!</h2>
+                    <h2 className="text-2xl font-bold text-gray-700 mb-4">Welcome!</h2>
                     <p className="text-gray-600 mb-8 text-center">
-                        To keep connected with us, please login with your personal info.
+                        Already have an account? Log in to start using our services.
                     </p>
                     <Link to="/login">
                         <button className="bg-teal-500 text-white px-6 py-2 rounded hover:bg-teal-600">
-                            Sign In
+                            Log In
                         </button>
                     </Link>
                 </div>
@@ -63,21 +70,22 @@ const SignupPage = () => {
                 {/* Right Section */}
                 <div className="w-1/2 bg-white p-8 flex flex-col justify-center rounded-r-lg">
                     <h2 className="text-3xl font-bold text-teal-600 mb-8 text-center">
-                        Create Account
+                        Sign Up
                     </h2>
-                    <form onSubmit={submitForm}>
+                    <form onSubmit={registerSubmit}>
                         <div className="mb-4">
                             <input
                                 type="text"
                                 id="username"
                                 name="username"
-                                placeholder="Name"
+                                placeholder="Username"
                                 value={username}
-                                onChange={(e) => setUserName(e.target.value)}
+                                onChange={(e) => setUsername(e.target.value)}
                                 className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                                 required
                             />
                         </div>
+
                         <div className="mb-4">
                             <input
                                 type="email"
@@ -90,6 +98,7 @@ const SignupPage = () => {
                                 required
                             />
                         </div>
+
                         <div className="mb-4">
                             <input
                                 type="password"
@@ -103,27 +112,38 @@ const SignupPage = () => {
                             />
                         </div>
 
-                        {/* Role Selection */}
                         <div className="mb-4">
-                            <label
-                                htmlFor="userType"
-                                className="block text-sm font-medium text-gray-700 mb-2"
-                            >
-                                Select User Type
+                            <label htmlFor="userType" className="block text-gray-700">
+                                User Type
                             </label>
                             <select
                                 id="userType"
                                 name="userType"
-                                className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                                 value={userType}
                                 onChange={(e) => setUserType(e.target.value)}
-                                required
+                                className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
                             >
                                 <option value="user">User</option>
                                 <option value="pharmacist">Pharmacist</option>
                                 <option value="admin">Admin</option>
                             </select>
                         </div>
+
+                        {/* Admin Passphrase Field (shown only if userType is admin) */}
+                        {userType === "admin" && (
+                            <div className="mb-4">
+                                <input
+                                    type="password"
+                                    id="adminPassphrase"
+                                    name="adminPassphrase"
+                                    placeholder="Admin Passphrase"
+                                    value={adminPassphrase}
+                                    onChange={(e) => setAdminPassphrase(e.target.value)}
+                                    className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                                    required
+                                />
+                            </div>
+                        )}
 
                         <div className="flex items-center justify-between mb-6">
                             <button
@@ -140,4 +160,4 @@ const SignupPage = () => {
     );
 };
 
-export default SignupPage;
+export default SignUpPage;
