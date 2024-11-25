@@ -3,27 +3,33 @@ import { toast } from "react-toastify";
 
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
+    const [editingUser, setEditingUser] = useState(null);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [userType, setUserType] = useState("user");
-    const [editingUser, setEditingUser] = useState(null);
+    const [status, setStatus] = useState("active");
 
+    // Fetch Users
     const fetchUsers = async () => {
         try {
-            const res = await fetch("/api/users", {
-                method: "GET",
-                credentials: "include",
-            });
-            const data = await res.json();
-            console.log(data); // Debug the response
-            setUsers(data);
+            const res = await fetch("/api/users", { credentials: "include" });
+            if (res.ok) {
+                const data = await res.json();
+                setUsers(data);
+            } else {
+                toast.error("Failed to fetch users");
+            }
         } catch (error) {
-            toast.error("Failed to fetch users");
-            setUsers([]); // Ensure it's an array
+            toast.error("Error fetching users");
         }
     };
 
+    useEffect(() => {
+        fetchUsers();
+    }, []);
+
+    // Add User
     const addUser = async (e) => {
         e.preventDefault();
         try {
@@ -32,16 +38,13 @@ const AdminDashboard = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username, email, password, userType }),
+                body: JSON.stringify({ username, email, password, userType, status }),
                 credentials: "include",
             });
             if (res.ok) {
-                toast.success(`${userType} added successfully`);
+                toast.success("User added successfully");
                 fetchUsers();
-                setUsername("");
-                setEmail("");
-                setPassword("");
-                setUserType("user");
+                resetForm();
             } else {
                 toast.error("Failed to add user");
             }
@@ -50,13 +53,16 @@ const AdminDashboard = () => {
         }
     };
 
+    // Edit User
     const editUser = (user) => {
         setEditingUser(user);
         setUsername(user.username);
         setEmail(user.email);
         setUserType(user.userType);
+        setStatus(user.status); // Set status for editing
     };
 
+    // Update User
     const updateUser = async (e) => {
         e.preventDefault();
         try {
@@ -65,17 +71,13 @@ const AdminDashboard = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username, email, userType }),
+                body: JSON.stringify({ username, email, userType, status }), // Include status
                 credentials: "include",
             });
             if (res.ok) {
                 toast.success("User updated successfully");
                 fetchUsers();
-                setEditingUser(null);
-                setUsername("");
-                setEmail("");
-                setPassword("");
-                setUserType("user");
+                resetForm();
             } else {
                 toast.error("Failed to update user");
             }
@@ -84,12 +86,35 @@ const AdminDashboard = () => {
         }
     };
 
-    useEffect(() => {
-        fetchUsers();
-    }, []);
+    // Reset Form
+    const resetForm = () => {
+        setEditingUser(null);
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setUserType("user");
+        setStatus("active");
+    };
+
+    const deleteUser = async (id) => {
+        try {
+            const res = await fetch(`/api/users/${id}`, {
+                method: "DELETE",
+                credentials: "include",
+            });
+            if (res.ok) {
+                toast.success("User deleted successfully");
+                fetchUsers();
+            } else {
+                toast.error("Failed to delete user");
+            }
+        } catch (error) {
+            toast.error("Error deleting user");
+        }
+    };
 
     return (
-        <div className="p-4">
+        <div className="container mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
             <form onSubmit={editingUser ? updateUser : addUser} className="space-y-4">
                 <input
@@ -98,6 +123,7 @@ const AdminDashboard = () => {
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="border p-2 rounded w-full"
+                    required
                 />
                 <input
                     type="email"
@@ -105,6 +131,7 @@ const AdminDashboard = () => {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="border p-2 rounded w-full"
+                    required
                 />
                 {!editingUser && (
                     <input
@@ -113,6 +140,7 @@ const AdminDashboard = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         className="border p-2 rounded w-full"
+                        required
                     />
                 )}
                 <select
@@ -121,7 +149,17 @@ const AdminDashboard = () => {
                     className="border p-2 rounded w-full"
                 >
                     <option value="user">User</option>
+                    <option value="admin">Admin</option>
                     <option value="pharmacist">Pharmacist</option>
+
+                </select>
+                <select
+                    value={status}
+                    onChange={(e) => setStatus(e.target.value)}
+                    className="border p-2 rounded w-full"
+                >
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
                 </select>
                 <button
                     type="submit"
@@ -129,7 +167,17 @@ const AdminDashboard = () => {
                 >
                     {editingUser ? "Update" : "Add"}
                 </button>
+                {editingUser && (
+                    <button
+                        type="button"
+                        onClick={resetForm}
+                        className="bg-gray-500 text-white px-4 py-2 rounded ml-2"
+                    >
+                        Cancel
+                    </button>
+                )}
             </form>
+
             <ul className="mt-6 space-y-2">
                 {Array.isArray(users) &&
                     users.map((user) => (
@@ -137,13 +185,24 @@ const AdminDashboard = () => {
                             key={user._id}
                             className="flex justify-between items-center border p-2 rounded"
                         >
-                            {user.username} ({user.userType})
-                            <button
-                                onClick={() => editUser(user)}
-                                className="bg-yellow-500 text-white px-2 py-1 rounded"
-                            >
-                                Edit
-                            </button>
+                            <div className="flex flex-col">
+                                <span>{user.username} ({user.userType})</span>
+                                <span>Status: {user.status}</span>
+                            </div>
+                            <div className="flex space-x-2">
+                                <button
+                                    onClick={() => editUser(user)}
+                                    className="bg-yellow-500 text-white px-2 py-1 rounded"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    onClick={() => deleteUser(user._id)}
+                                    className="bg-red-500 text-white px-2 py-1 rounded"
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </li>
                     ))}
             </ul>

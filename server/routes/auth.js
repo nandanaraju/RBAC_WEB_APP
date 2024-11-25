@@ -37,6 +37,50 @@ router.get('/users', verifyToken, authorizeRoles('admin'), async (req, res) => {
     }
 });
 
+// Edit User Route (Admin Only)
+// Update User by Admin (PUT)
+router.put('/users/:id', verifyToken, authorizeRoles('admin'), async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { username, email, userType, status } = req.body;
+
+        // Find the user by ID and update fields
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            { username, email, userType, status },
+            { new: true } // Return the updated user
+        );
+
+        if (!updatedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+    } catch (error) {
+        console.error('Error updating user:', error);
+        res.status(500).json({ error: 'Failed to update user' });
+    }
+});
+
+// Delete User Route (Admin Only)
+router.delete('/users/:id', verifyToken, authorizeRoles('admin'), async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deletedUser = await User.findByIdAndDelete(id);
+
+        if (!deletedUser) {
+            return res.status(404).json({ error: 'User not found' });
+        }
+
+        res.status(200).json({ message: 'User deleted successfully' });
+    } catch (error) {
+        console.error('Delete user error:', error);
+        res.status(500).json({ error: 'Failed to delete user' });
+    }
+});
+
+
 // Pharmacist - Manage Inventory (example endpoint)
 router.get('/inventory', verifyToken, authorizeRoles('pharmacist'), async (req, res) => {
     res.json({ message: 'Pharmacist inventory data' });
