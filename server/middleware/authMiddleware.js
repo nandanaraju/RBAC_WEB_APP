@@ -9,6 +9,8 @@ function verifyToken(req, res, next) {
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
         req.user = decoded; // Include user role and email in the request
+        req.userEmail = decoded.email; // Attach userEmail to request
+
         next();
     } catch (error) {
         console.log('Token verification error:', error);

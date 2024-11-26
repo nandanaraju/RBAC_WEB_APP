@@ -20,8 +20,10 @@ import ConfirmPage from "./pages/ConfirmPage";
 import MessagePage from "./pages/MessagePage";
 import ContactPage from "./pages/ContactPage";
 import AboutPage from "./pages/AboutPage";
-import AdminPresPage from "./pages/AdminPresPage";
 import AdminDashboard from "./pages/AdminDashboard";
+import AdminPage from "./pages/AdminPage";
+import PharmacistPresPage from "./pages/PharmacistPresPage";
+import PharmacistPage from "./pages/PharmacistPage";
 
 function App() {
   const router = createBrowserRouter(
@@ -39,6 +41,7 @@ function App() {
           <Route path="/message" element={<MessagePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/admin" element={<AdminPage />} />
 
 
 
@@ -60,7 +63,8 @@ function App() {
 
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/cart-page" element={<CartPage />} />
-        <Route path="/pres" element={<AdminPresPage />} />
+        <Route path="/pres" element={<PharmacistPresPage />} />
+        <Route path="/pharmacist" element={<PharmacistPage />} />
 
 
       

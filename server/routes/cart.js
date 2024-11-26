@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const Product = require('../models/product');
-const verifyToken = require('../middleware/authMiddleware');
+const {verifyToken,authorizeRoles} = require('../middleware/authMiddleware');
 
 // Add product to cart
-router.post('/add/:id/:quantity', async (req, res) => {
+router.post('/add/:id/:quantity',verifyToken,authorizeRoles('user'), async (req, res) => {
     const { id, quantity } = req.params;
 
     if (!id || !quantity) {
@@ -54,7 +54,7 @@ router.post('/add/:id/:quantity', async (req, res) => {
 });
 
 // Update product quantity in cart
-router.put('/update/:id/:quantity', async (req, res) => {
+router.put('/update/:id/:quantity',verifyToken,authorizeRoles('user'), async (req, res) => {
     const { id, quantity } = req.params;
 
     if (!id || !quantity) {
@@ -96,7 +96,7 @@ router.put('/update/:id/:quantity', async (req, res) => {
 });
 
 // Remove product from cart
-router.delete('/remove/:id', async (req, res) => {
+router.delete('/remove/:id',verifyToken,authorizeRoles('user'), async (req, res) => {
     const { id } = req.params;
 
     if (!id) {

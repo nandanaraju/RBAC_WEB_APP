@@ -44,12 +44,12 @@ router.post('/checkout', upload.single('prescription'), async (req, res) => {
     }
 });
 
-router.get('/admin/checkouts', async (req, res) => {
+router.get('/pharmacist/checkouts', async (req, res) => {
     try {
         const checkouts = await Checkout.find();
         const checkoutsWithImageUrl = checkouts.map(checkout => ({
             ...checkout._doc,
-            imageUrl: `api/admin/checkouts/${checkout._id}/image`
+            imageUrl: `api/pharmacist/checkouts/${checkout._id}/image`
         }));
         res.json(checkoutsWithImageUrl);
     } catch (error) {
@@ -58,7 +58,7 @@ router.get('/admin/checkouts', async (req, res) => {
     }
 });
 
-router.get('/admin/checkouts/:id/image', async (req, res) => {
+router.get('/pharmacist/checkouts/:id/image', async (req, res) => {
     try {
         const pres = await Checkout.findById(req.params.id);
         if (!pres) {
@@ -83,7 +83,7 @@ router.get('/admin/checkouts/:id/image', async (req, res) => {
     }
 });
 
-router.put('/admin/checkouts/:id/confirm', async (req, res) => {
+router.put('/pharmacist/checkouts/:id/confirm', async (req, res) => {
     try {
         const { id } = req.params;
         const checkout = await Checkout.findById(id);
@@ -91,7 +91,7 @@ router.put('/admin/checkouts/:id/confirm', async (req, res) => {
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        checkout.confirmedByAdmin = true;
+        checkout.confirmedByPharmacist = true;
         checkout.status = 'Confirmed';
         await checkout.save();
 
@@ -102,7 +102,7 @@ router.put('/admin/checkouts/:id/confirm', async (req, res) => {
     }
 });
 
-router.put('/admin/checkouts/:id/reject', async (req, res) => {
+router.put('/pharmacist/checkouts/:id/reject', async (req, res) => {
     try {
         const { id } = req.params;
         const checkout = await Checkout.findById(id);
@@ -110,7 +110,7 @@ router.put('/admin/checkouts/:id/reject', async (req, res) => {
             return res.status(404).json({ message: 'Order not found' });
         }
 
-        checkout.confirmedByAdmin = false;
+        checkout.confirmedBypharmacist = false;
         checkout.status = 'Cancelled';
         await checkout.save();
 

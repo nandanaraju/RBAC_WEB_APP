@@ -36,8 +36,8 @@ const SignUpPage = () => {
                 toast.success(`${userType} registered successfully`);
 
                 // Redirect based on user type
-                if (userType === "admin") {
-                    navigate("/admin-dashboard");
+                if (userType === "admin"||"user"||"pharmacist") {
+                    navigate("/login");
                 } else {
                     navigate("/login");
                 }

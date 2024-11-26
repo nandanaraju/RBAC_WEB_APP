@@ -2,11 +2,11 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const Product = require('../models/product');
-const verifyToken = require('../middleware/authMiddleware');
+const {verifyToken, authorizeRoles} = require('../middleware/authMiddleware');
 
 
 
-router.get('/profile', async (req, res) => {
+router.get('/profile',verifyToken,authorizeRoles('user'), async (req, res) => {
     try {
         const user = await User.findOne({ email: req.userEmail }).select('-password');
         if (!user) {
@@ -27,7 +27,7 @@ router.get('/profile', async (req, res) => {
 
 
 
-router.put('/', async (req, res) => {
+router.put('/',verifyToken,authorizeRoles('user'), async (req, res) => {
     const { username, email } = req.body;
 
     try {

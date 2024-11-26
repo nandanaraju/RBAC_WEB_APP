@@ -1,13 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/product');
-const verifyToken = require('../middleware/authMiddleware');
+const {verifyToken,authorizeRoles} = require('../middleware/authMiddleware');
 
 
-router.post('/products',  async (req, res) => {
-    if (req.userType !== 'admin') {
-        return res.status(403).json({ error: 'Access denied' });
-    }
+router.post('/products',verifyToken,authorizeRoles('admin'),async (req, res) => {
 
     try {
         const { productId, productName, productDescription, productPrice,productQuantity } = req.body;
@@ -37,12 +34,7 @@ router.get('/products', async (req, res) => {
 });
 
 
-router.put('/products/:id', async (req, res) => {
-    if (req.userType != 'admin') {
-        console.log("new1", userType)
-        return res.status(403).json({ error: 'Access denied' });
-    }
-
+router.put('/products/:id', verifyToken,authorizeRoles('admin'), async (req, res) => {
     try {
         const  productId  = req.params.id;
         console.log("new1", productId)
@@ -66,10 +58,8 @@ router.put('/products/:id', async (req, res) => {
 });
 
 
-router.delete('/products/:id', async (req, res) => {
-    if (req.userType !== 'admin') {
-        return res.status(403).json({ error: 'Access denied' });
-    }
+router.delete('/products/:id', verifyToken,authorizeRoles('admin'), async (req, res) => {
+    
 
     try {
         const productId = req.params.id;

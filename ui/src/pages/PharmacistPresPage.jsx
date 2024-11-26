@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const AdminPresPage = () => {
+const PharmacistPresPage = () => {
     const [checkouts, setCheckouts] = useState([]);
 
     useEffect(() => {
         const fetchCheckouts = async () => {
             try {
-                const response = await fetch('api/admin/checkouts');
+                const response = await fetch('api/pharmacist/checkouts');
                 const data = await response.json();
                 setCheckouts(data);
             } catch (error) {
@@ -20,13 +20,13 @@ const AdminPresPage = () => {
 
     const handleConfirmOrder = async (id) => {
         try {
-            const response = await fetch(`api/admin/checkouts/${id}/confirm`, {
+            const response = await fetch(`api/pharmacist/checkouts/${id}/confirm`, {
                 method: 'PUT',
             });
 
             if (response.ok) {
                 setCheckouts(checkouts.map((checkout) =>
-                    checkout._id === id ? { ...checkout, confirmedByAdmin: true, status: 'Confirmed' } : checkout
+                    checkout._id === id ? { ...checkout, confirmedByPharamacist: true, status: 'Confirmed' } : checkout
                 ));
             } else {
                 console.error('Error confirming order');
@@ -38,13 +38,13 @@ const AdminPresPage = () => {
 
     const handleRejectOrder = async (id) => {
         try {
-            const response = await fetch(`api/admin/checkouts/${id}/reject`, {
+            const response = await fetch(`api/pharmacist/checkouts/${id}/reject`, {
                 method: 'PUT',
             });
 
             if (response.ok) {
                 setCheckouts(checkouts.map((checkout) =>
-                    checkout._id === id ? { ...checkout, confirmedByAdmin: false, status: 'Cancelled' } : checkout
+                    checkout._id === id ? { ...checkout, confirmedByPharmacist: false, status: 'Cancelled' } : checkout
                 ));
             } else {
                 console.error('Error rejecting order');
@@ -100,10 +100,10 @@ const AdminPresPage = () => {
             </div>
             <div className='ml-[650px] mt-8 mb-8'>
 
-            <Link to="/admin" className='bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 rounded-full '>Go Back</Link>
+            <Link to="/pharmacist" className='bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 rounded-full '>Go Back</Link>
             </div>
         </>
     );
 };
 
-export default AdminPresPage;
+export default PharmacistPresPage;

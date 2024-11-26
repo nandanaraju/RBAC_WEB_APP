@@ -149,7 +149,6 @@ const AdminDashboard = () => {
                     className="border p-2 rounded w-full"
                 >
                     <option value="user">User</option>
-                    <option value="admin">Admin</option>
                     <option value="pharmacist">Pharmacist</option>
 
                 </select>

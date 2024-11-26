@@ -13,7 +13,7 @@ const checkoutSchema = new mongoose.Schema({
         type: String,
         default: 'Pending',
     },
-    confirmedByAdmin: {
+    confirmedByPharmacist: {
         type: Boolean,
         default: false,
     },

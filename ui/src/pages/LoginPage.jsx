@@ -26,11 +26,11 @@ const LoginPage = () => {
 
                 // Navigate to appropriate page based on userType
                 if (data.userType === "admin") {
-                    navigate("/admin-dashboard");
+                    navigate("/admin");
                 } else if (data.userType === "pharmacist") {
-                    navigate("/pharmacist-dashboard");
+                    navigate("/pharmacist");
                 } else {
-                    navigate("/user-profile");
+                    navigate("/profile");
                 }
             } else {
                 const { error } = await res.json();
