@@ -75,10 +75,10 @@ const ProductPage = () => {
         <div className="bg-white text-gray-900 mb-10 pb-10">
             <div className="max-w-4xl mx-auto p-5">
 
-                <div className="bg-teal-100 shadow-xl rounded-xl overflow-hidden h-auto">
+                <div className="bg-blue-100 shadow-xl rounded-xl overflow-hidden h-auto">
                     <div className="p-6 space-y-6">
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-                            <h1 className="text-4xl font-bold text-teal-800">{product.productName}</h1>
+                            <h1 className="text-4xl font-bold text-blue-800">{product.productName}</h1>
                             <div className="flex items-center mt-4 sm:mt-0">
                                 <p className="text-xl font-bold mr-4">Price:</p>
                                 <span className="text-3xl text-red-500 font-semibold mr-4">₹{product.productPrice}</span>
@@ -89,12 +89,12 @@ const ProductPage = () => {
                                             type="number"
                                             id="quantity"
                                             name="quantity"
-                                            className="border-2 border-teal-500 rounded-lg py-2 px-4 mb-4 mt-2 focus:outline-none focus:ring-2 focus:ring-teal-600"
+                                            className="border-2 border-blue-500 rounded-lg py-2 px-4 mb-4 mt-2 focus:outline-none focus:ring-2 focus:ring-blue-600"
                                             required
                                             value={quantity}
                                             onChange={(e) => setQuantity(e.target.value)}
                                         />
-                                        <button onClick={cartAdding} className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-6 rounded-lg mt-4 transition duration-300 ease-in-out transform hover:-translate-y-1">
+                                        <button onClick={cartAdding} className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-6 rounded-lg mt-4 transition duration-300 ease-in-out transform hover:-translate-y-1">
                                             Add to cart
                                         </button>
                                     </div>
@@ -102,12 +102,12 @@ const ProductPage = () => {
                             </div>
                         </div>
                         <div className="mb-6">
-                            <h2 className="text-2xl font-semibold text-teal-800 mb-2">Description</h2>
+                            <h2 className="text-2xl font-semibold text-blue-800 mb-2">Description</h2>
                             <p className="text-lg text-gray-700">{product.productDescription}</p>
                         </div>
                         {userType === 'admin' && (
                             <div className="mb-6">
-                                <h2 className="text-2xl font-semibold text-teal-800 mb-2">Quantity</h2>
+                                <h2 className="text-2xl font-semibold text-blue-800 mb-2">Quantity</h2>
                                 <p className="text-lg text-gray-700">{product.productQuantity}</p>
                             </div>
                         )}
@@ -119,20 +119,20 @@ const ProductPage = () => {
                     <>
                         <Link
                             to={`/edit-product/${id}`}
-                            className=" mr-8 flex bg-teal-500 hover:bg-teal-600 text-white font-bold rounded-full h-10 w-32 focus:outline-none focus:shadow-outline justify-center items-center transition duration-300 ease-in-out transform hover:-translate-y-1"
+                            className=" mr-8 flex bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full h-10 w-32 focus:outline-none focus:shadow-outline justify-center items-center transition duration-300 ease-in-out transform hover:-translate-y-1"
                         >
                             Edit Product
                         </Link>
                         <button
                             onClick={deleteProduct}
-                            className=" mr-8 flex bg-teal-500 hover:bg-teal-600 text-white font-bold rounded-full h-10 w-32 focus:outline-none focus:shadow-outline justify-center items-center transition duration-300 ease-in-out transform hover:-translate-y-1"
+                            className=" mr-8 flex bg-blue-500 hover:bg-blue-600 text-white font-bold rounded-full h-10 w-32 focus:outline-none focus:shadow-outline justify-center items-center transition duration-300 ease-in-out transform hover:-translate-y-1"
                         >
                             Remove Product
                         </button>
                     </>
                 )}
             </div>
-            <section className="text-teal-600 text-xl ml-10">
+            <section className="text-blue-600 text-xl ml-10">
                 <Link className="flex items-center my-5 gap-1 font-medium underline decoration-green-600 italic text-[16px]" to="/products">
                     Back to Products
                 </Link>

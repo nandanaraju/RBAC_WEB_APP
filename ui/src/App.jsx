@@ -37,11 +37,12 @@ function App() {
           <Route path="/add-product" element={<AddProductPage />} />
           <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order" element={<ConfirmPage />} />
-          <Route path="/admin-dashboard" element={<AdminDashboard />} />
           <Route path="/message" element={<MessagePage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/pharmacist" element={<PharmacistPage />} />
+
 
 
 
@@ -64,7 +65,7 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/cart-page" element={<CartPage />} />
         <Route path="/pres" element={<PharmacistPresPage />} />
-        <Route path="/pharmacist" element={<PharmacistPage />} />
+        <Route path="/admin-dashboard" element={<AdminDashboard />} />
 
 
       

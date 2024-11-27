@@ -59,7 +59,7 @@ const AdminDashboard = () => {
         setUsername(user.username);
         setEmail(user.email);
         setUserType(user.userType);
-        setStatus(user.status); // Set status for editing
+        setStatus(user.status);
     };
 
     // Update User
@@ -71,7 +71,7 @@ const AdminDashboard = () => {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username, email, userType, status }), // Include status
+                body: JSON.stringify({ username, email, userType, status }),
                 credentials: "include",
             });
             if (res.ok) {
@@ -86,16 +86,7 @@ const AdminDashboard = () => {
         }
     };
 
-    // Reset Form
-    const resetForm = () => {
-        setEditingUser(null);
-        setUsername("");
-        setEmail("");
-        setPassword("");
-        setUserType("user");
-        setStatus("active");
-    };
-
+    // Delete User
     const deleteUser = async (id) => {
         try {
             const res = await fetch(`/api/users/${id}`, {
@@ -113,98 +104,189 @@ const AdminDashboard = () => {
         }
     };
 
+    // Reset Form
+    const resetForm = () => {
+        setEditingUser(null);
+        setUsername("");
+        setEmail("");
+        setPassword("");
+        setUserType("user");
+        setStatus("active");
+    };
+
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Admin Dashboard</h1>
-            <form onSubmit={editingUser ? updateUser : addUser} className="space-y-4">
-                <input
-                    type="text"
-                    placeholder="Username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    className="border p-2 rounded w-full"
-                    required
-                />
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="border p-2 rounded w-full"
-                    required
-                />
-                {!editingUser && (
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        className="border p-2 rounded w-full"
-                        required
-                    />
-                )}
-                <select
-                    value={userType}
-                    onChange={(e) => setUserType(e.target.value)}
-                    className="border p-2 rounded w-full"
-                >
-                    <option value="user">User</option>
-                    <option value="pharmacist">Pharmacist</option>
+        <div style={{ backgroundColor: "#f5f5f5", minHeight: "100vh", padding: "20px" }}>
+            <div style={{ maxWidth: "600px", margin: "auto", padding: "20px", backgroundColor: "#ffffff", boxShadow: "0px 2px 5px rgba(0, 0, 0, 0.2)" }}>
+                <h1 style={{ textAlign: "center", color: "#000", fontSize: "24px", marginBottom: "20px" }}>User Management</h1>
 
-                </select>
-                <select
-                    value={status}
-                    onChange={(e) => setStatus(e.target.value)}
-                    className="border p-2 rounded w-full"
+                {/* Add/Edit User Form */}
+                <form
+                    onSubmit={editingUser ? updateUser : addUser}
+                    style={{
+                        padding: "20px",
+                        backgroundColor: "#eeeeee",
+                        borderRadius: "10px",
+                        marginBottom: "20px",
+                    }}
                 >
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                </select>
-                <button
-                    type="submit"
-                    className="bg-blue-500 text-white px-4 py-2 rounded"
-                >
-                    {editingUser ? "Update" : "Add"}
-                </button>
-                {editingUser && (
-                    <button
-                        type="button"
-                        onClick={resetForm}
-                        className="bg-gray-500 text-white px-4 py-2 rounded ml-2"
-                    >
-                        Cancel
-                    </button>
-                )}
-            </form>
+                    <h2 style={{ fontSize: "18px", marginBottom: "10px", color: "#333" }}>
+                        {editingUser ? "Edit User" : "Add a user"}
+                    </h2>
+                    <div style={{ marginBottom: "10px" }}>
+                        <label>Username*</label>
+                        <input
+                            type="text"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            style={{
+                                width: "100%",
+                                padding: "10px",
+                                borderRadius: "5px",
+                                border: "1px solid #ccc",
+                                marginBottom: "10px",
+                            }}
+                            required
+                        />
+                        <label>Email*</label>
 
-            <ul className="mt-6 space-y-2">
-                {Array.isArray(users) &&
-                    users.map((user) => (
-                        <li
-                            key={user._id}
-                            className="flex justify-between items-center border p-2 rounded"
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            style={{
+                                width: "100%",
+                                padding: "10px",
+                                borderRadius: "5px",
+                                border: "1px solid #ccc",
+                                marginBottom: "10px",
+                            }}
+                            required
+                        />
+                        <label>Password*</label>
+                        {!editingUser && (
+                            
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                style={{
+                                    width: "100%",
+                                    padding: "10px",
+                                    borderRadius: "5px",
+                                    border: "1px solid #ccc",
+                                    marginBottom: "10px",
+                                }}
+                                required
+                            />
+                        )}
+                        <label>UserType*</label>
+                        <select
+                            value={userType}
+                            onChange={(e) => setUserType(e.target.value)}
+                            style={{
+                                width: "100%",
+                                padding: "10px",
+                                borderRadius: "5px",
+                                border: "1px solid #ccc",
+                                marginBottom: "10px",
+                            }}
                         >
-                            <div className="flex flex-col">
-                                <span>{user.username} ({user.userType})</span>
-                                <span>Status: {user.status}</span>
+                            <option value="user">User</option>
+                            <option value="pharmacist">Pharmacist</option>
+                        </select>
+                        <label >Status*</label>
+                        <select
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}
+                            style={{
+                                width: "100%",
+                                padding: "10px",
+                                borderRadius: "5px",
+                                border: "1px solid #ccc",
+                                marginBottom: "10px",
+                            }}
+                        >
+                            <option value="active">Active</option>
+                            <option value="inactive">Inactive</option>
+                        </select>
+                    </div>
+                    <button
+                        type="submit"
+                        style={{
+                            backgroundColor: "#007bff",
+                            color: "#fff",
+                            border: "none",
+                            padding: "10px 20px",
+                            borderRadius: "5px",
+                            cursor: "pointer",
+                            width: "100%",
+                        }}
+                    >
+                        {editingUser ? "Update" : "Add a new user"}
+                    </button>
+                </form>
+
+                {/* Users List */}
+                <h2 style={{ fontSize: "18px", marginBottom: "10px", color: "#333" }}>Manage Users</h2>
+                <div>
+                    {Array.isArray(users) &&
+                        users.map((user) => (
+                            <div
+                                key={user._id}
+                                style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    padding: "10px",
+                                    backgroundColor: "#f9f9f9",
+                                    borderRadius: "5px",
+                                    border: "1px solid #ddd",
+                                    marginBottom: "10px",
+                                }}
+                            >
+                                <div>
+                                    <span style={{ fontSize: "16px", fontWeight: "bold", color: "#333" }}>
+                                        {user.username} ({user.userType})
+                                    </span>
+                                    <span style={{ display: "block", fontSize: "14px", color: "#666" }}>
+                                        Status: {user.status}
+                                    </span>
+                                </div>
+                                <div style={{ display: "flex", gap: "10px" }}>
+                                    <button
+                                        onClick={() => editUser(user)}
+                                        style={{
+                                            backgroundColor: "#ffc107",
+                                            color: "#fff",
+                                            border: "none",
+                                            padding: "5px 10px",
+                                            borderRadius: "5px",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={() => deleteUser(user._id)}
+                                        style={{
+                                            backgroundColor: "#dc3545",
+                                            color: "#fff",
+                                            border: "none",
+                                            padding: "5px 10px",
+                                            borderRadius: "5px",
+                                            cursor: "pointer",
+                                        }}
+                                    >
+                                        Delete
+                                    </button>
+                                </div>
                             </div>
-                            <div className="flex space-x-2">
-                                <button
-                                    onClick={() => editUser(user)}
-                                    className="bg-yellow-500 text-white px-2 py-1 rounded"
-                                >
-                                    Edit
-                                </button>
-                                <button
-                                    onClick={() => deleteUser(user._id)}
-                                    className="bg-red-500 text-white px-2 py-1 rounded"
-                                >
-                                    Delete
-                                </button>
-                            </div>
-                        </li>
-                    ))}
-            </ul>
+                        ))}
+                </div>
+            </div>
         </div>
     );
 };

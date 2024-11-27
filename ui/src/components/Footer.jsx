@@ -2,8 +2,8 @@ import React from 'react';
 
 const Footer = () => {
     return (
-        <footer className="bg-gradient-to-r from-teal-500 via-teal-600 to-teal-700 text-white py-4 text-center">
-            <p className="text-sm md:text-base font-semibold">
+        <footer className="bg-gray-100 border-t border-gray-300 text-gray-800 py-6">
+            <p className="text-sm md:text-base font-medium text-center">
                 &copy; 2024 Carewell Pharmacy. All rights reserved.
             </p>
         </footer>

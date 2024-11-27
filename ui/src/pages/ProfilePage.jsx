@@ -64,7 +64,7 @@ const ProfilePage = () => {
                         </div>
                     </div>
                     <div className="flex justify-center mt-16">
-                        <Link to="/products" className="bg-teal-500 text-white px-6 py-3 rounded-full shadow hover:bg-teal-600 ">Continue Shopping</Link>
+                        <Link to="/products" className="bg-blue-500 text-white px-6 py-3 rounded-full shadow hover:bg-blue-600 ">Continue Shopping</Link>
                     </div>
                 </section>
             </main>

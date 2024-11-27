@@ -86,16 +86,16 @@ const CartPage = () => {
             <Navbar/>
             <main className="container mx-auto mt-8">
                 <section className="text-center">
-                    <h2 className="text-4xl mb-4 font-bold text-teal-600">Shopping Cart</h2>
+                    <h2 className="text-4xl mb-4 font-bold text-blue-600">Shopping Cart</h2>
                     <div className="bg-white p-8 rounded shadow-lg w-3/4 mx-auto mt-16">
                         <table className="min-w-full">
                             <thead>
                                 <tr className="w-full bg-gray-100">
-                                    <th className="py-2 bg-teal-500 text-white">Items</th>
-                                    <th className="py-2 bg-teal-500 text-white">Rate</th>
-                                    <th className="py-2 bg-teal-500 text-white">Quantity</th>
-                                    <th className="py-2 bg-teal-500 text-white">Total</th>
-                                    <th className="py-2 bg-teal-500 text-white">Remove</th>
+                                    <th className="py-2 bg-blue-500 text-white">Items</th>
+                                    <th className="py-2 bg-blue-500 text-white">Rate</th>
+                                    <th className="py-2 bg-blue-500 text-white">Quantity</th>
+                                    <th className="py-2 bg-blue-500 text-white">Total</th>
+                                    <th className="py-2 bg-blue-500 text-white">Remove</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -122,8 +122,8 @@ const CartPage = () => {
                             <p className="font-bold">Total: ₹ {total}</p>
                         </div>
                         <div className="flex mt-4 justify-center gap-6">
-                            <Link to="/products" className="bg-teal-500 text-white font-bold py-2 px-4 rounded shadow mt-4 inline-block">Back to products</Link>
-                            <Link to="/checkout" className="bg-teal-500 text-white font-bold py-2 px-4 rounded shadow mt-4 inline-block">Proceed to Checkout</Link>
+                            <Link to="/products" className="bg-blue-500 text-white font-bold py-2 px-4 rounded shadow mt-4 inline-block">Back to products</Link>
+                            <Link to="/checkout" className="bg-blue-500 text-white font-bold py-2 px-4 rounded shadow mt-4 inline-block">Proceed to Checkout</Link>
                         </div>
                     </div>
                 </section>

@@ -43,7 +43,7 @@ const ContactPage = () => {
             <div className="min-h-screen bg-cover bg-center flex items-center justify-center"
                 style={{ backgroundImage: "url('https://img.freepik.com/free-photo/top-view-blue-monday-concept-composition-with-telephone_23-2149139103.jpg?size=626&ext=jpg&ga=GA1.1.414470015.1718158445&semt=ais_hybrid')" }}>
                 <div className="container mx-auto my-10 p-6 bg-white rounded shadow-md backdrop-blur-sm bg-opacity-70">
-                    <h1 className="text-3xl font-bold mb-5 text-teal-600">Contact Us</h1>
+                    <h1 className="text-3xl font-bold mb-5 text-blue-600">Contact Us</h1>
                     {successMessage && <p className="text-green-500 mb-4">{successMessage}</p>}
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
@@ -57,7 +57,7 @@ const ContactPage = () => {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-1 focus:ring-teal-500"
+                                className="w-full p-3 border rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
                         <div className="mb-4">
@@ -71,7 +71,7 @@ const ContactPage = () => {
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                                 required
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-1 focus:ring-teal-500"
+                                className="w-full p-3 border rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                             />
                         </div>
                         <div className="mb-4">
@@ -84,13 +84,13 @@ const ContactPage = () => {
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                                 required
-                                className="w-full p-3 border rounded focus:outline-none focus:ring-1 focus:ring-teal-500"
+                                className="w-full p-3 border rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
                                 rows="5"
                             />
                         </div>
                         <button
                             type="submit"
-                            className="bg-teal-500 text-white font-bold py-2 px-4 rounded-full"
+                            className="bg-blue-500 text-white font-bold py-2 px-4 rounded-full"
                         >
                             Send Message
                         </button>

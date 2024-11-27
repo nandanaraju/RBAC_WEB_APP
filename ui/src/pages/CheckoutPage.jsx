@@ -44,7 +44,7 @@ const CheckoutPage = () => {
                 style={{ backgroundImage: "url('https://cdn.prod.website-files.com/5f46c318c843828732a6f8e2/6548a29af16906d8c6908cde_Location-Based-Marketing.webp')" }}>
         <main className=" mx-auto mr-[800px] ">
             <section className="w-[400px] mx-auto">
-                <h2 className="text-4xl mb-4 font-bold text-teal-600">Checkout Details</h2>
+                <h2 className="text-4xl mb-4 font-bold text-blue-600">Checkout Details</h2>
                 <div className="bg-white p-8 rounded-lg shadow-lg">
                     <form onSubmit={handleSubmit}>
                         <div className="mb-6">
@@ -94,7 +94,7 @@ const CheckoutPage = () => {
                                 required
                             />
                         </div>
-                        <button type="submit" className="w-full bg-teal-400 text-white py-2 rounded-lg font-semibold text-center block">
+                        <button type="submit" className="w-full bg-blue-400 text-white py-2 rounded-lg font-semibold text-center block">
                             Place Order
                         </button>
                     </form>

@@ -21,10 +21,8 @@ const LoginPage = () => {
             if (res.ok) {
                 const data = await res.json();
 
-                // Display success message with user type
                 toast.success(`Logged in as: ${data.userType}`);
 
-                // Navigate to appropriate page based on userType
                 if (data.userType === "admin") {
                     navigate("/admin");
                 } else if (data.userType === "pharmacist") {
@@ -43,66 +41,54 @@ const LoginPage = () => {
     };
 
     return (
-        <div className="flex items-center justify-center h-screen bg-teal-50">
-            <div className="bg-white shadow-lg rounded-lg flex max-w-4xl w-full">
-                {/* Left Section */}
-                <div className="w-1/2 bg-teal-100 p-8 flex flex-col justify-center items-center rounded-l-lg">
-                    <h2 className="text-2xl font-bold text-gray-700 mb-4">Hello, Friend!</h2>
-                    <p className="text-gray-600 mb-8 text-center">
-                        Don't have an account? Create your account to start using our services.
-                    </p>
-                    <Link to="/sign-up">
-                        <button className="bg-teal-500 text-white px-6 py-2 rounded hover:bg-teal-600">
-                            Sign Up
-                        </button>
+        <div className="flex items-center justify-center h-screen bg-gray-100">
+            <div className="bg-white shadow-lg rounded-lg p-8 w-96">
+                <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">Log In</h2>
+                <form onSubmit={loginSubmit}>
+                    <div className="relative mb-6">
+                        <i className="fas fa-user text-gray-500 absolute left-0 top-1/2 transform -translate-y-1/2 ml-2"></i>
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="w-full pl-8 border-b-2 border-gray-300 bg-transparent text-gray-800 placeholder-gray-500 outline-none focus:border-blue-500 transition"
+                            required
+                        />
+                    </div>
+                    <div className="relative mb-6">
+                        <i className="fas fa-lock text-gray-500 absolute left-0 top-1/2 transform -translate-y-1/2 ml-2"></i>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="w-full pl-8 border-b-2 border-gray-300 bg-transparent text-gray-800 placeholder-gray-500 outline-none focus:border-blue-500 transition"
+                            required
+                        />
+                    </div>
+                    <button
+                        type="submit"
+                        className="w-full bg-blue-500 text-white py-3 rounded mt-6 hover:bg-blue-600 transition"
+                    >
+                        Log In
+                    </button>
+                </form>
+                <div className="text-center text-gray-600 mt-6">
+                    <Link to="/forgot-password" className="text-blue-500 hover:underline">
+                        Forgot Password?
                     </Link>
                 </div>
-
-                {/* Right Section */}
-                <div className="w-1/2 bg-white p-8 flex flex-col justify-center rounded-r-lg">
-                    <h2 className="text-3xl font-bold text-teal-600 mb-8 text-center">
-                        Log In
-                    </h2>
-                    <form onSubmit={loginSubmit}>
-                        <div className="mb-4">
-                            <input
-                                type="text"
-                                id="username"
-                                name="username"
-                                placeholder="Username"
-                                value={username}
-                                onChange={(e) => setUsername(e.target.value)}
-                                className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-                                required
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <input
-                                type="password"
-                                id="password"
-                                name="password"
-                                placeholder="Password"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full px-4 py-2 border rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
-                                required
-                            />
-                        </div>
-                        <div className="flex items-center justify-between mb-6">
-                            <button
-                                type="submit"
-                                className="bg-teal-500 text-white px-6 py-2 rounded hover:bg-teal-600 w-full"
-                            >
-                                Log In
-                            </button>
-                        </div>
-                    </form>
-                    <div className="text-center">
-                        <Link to="/forgot-password" className="text-teal-500 hover:underline">
-                            Forgot Password?
-                        </Link>
-                    </div>
-                </div>
+                <p className="text-center text-gray-600 mt-4">
+                    Don't have an account?{" "}
+                    <Link to="/sign-up" className="text-blue-500 hover:underline">
+                        Sign Up
+                    </Link>
+                </p>
             </div>
         </div>
     );

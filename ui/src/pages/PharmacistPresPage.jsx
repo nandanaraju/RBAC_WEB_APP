@@ -26,7 +26,7 @@ const PharmacistPresPage = () => {
 
             if (response.ok) {
                 setCheckouts(checkouts.map((checkout) =>
-                    checkout._id === id ? { ...checkout, confirmedByPharamacist: true, status: 'Confirmed' } : checkout
+                    checkout._id === id ? { ...checkout, confirmedByPharmacist: true, status: 'Confirmed' } : checkout
                 ));
             } else {
                 console.error('Error confirming order');
@@ -50,57 +50,76 @@ const PharmacistPresPage = () => {
                 console.error('Error rejecting order');
             }
         } catch (error) {
-            console.error('Error rejecting order:', error);
+            console.error('Error rejecting order');
         }
     };
 
     return (
         <>
-
             <div className="container mx-auto mt-8">
-                <h2 className="text-4xl mb-4 font-bold text-teal-600 text-center">Uploaded Orders</h2>
-                <ul>
+                <h2 className="text-3xl font-bold text-gray-800 text-center mb-8">Pharmacist Prescription Orders</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {checkouts.map((checkout) => (
-                        <li key={checkout._id} className="mb-4">
-                            <div className="bg-white p-4 rounded shadow">
+                        <div
+                            key={checkout._id}
+                            className="bg-white border border-gray-300 rounded-lg shadow-md p-6"
+                        >
+                            <div className="flex justify-center mb-4">
                                 <img
                                     src={checkout.imageUrl}
                                     alt={checkout.prescription.originalname}
-                                    className="mb-2 w-full h-auto max-w-sm"
+                                    className="w-full h-auto max-w-xs rounded-md shadow-sm"
                                 />
-                                <p><strong>Name:</strong> {checkout.name}</p>
-                                <p><strong>Address:</strong> {checkout.address}</p>
-                                <p><strong>Contact Number:</strong> {checkout.contactNumber}</p>
-                                <p><strong>Prescription:</strong> {checkout.prescription.originalname}</p>
+                            </div>
+                            <div className="text-gray-700">
+                                <p className="mb-2">
+                                    <strong>Name:</strong> {checkout.name}
+                                </p>
+                                <p className="mb-2">
+                                    <strong>Address:</strong> {checkout.address}
+                                </p>
+                                <p className="mb-2">
+                                    <strong>Contact:</strong> {checkout.contactNumber}
+                                </p>
+                                <p className="mb-2">
+                                    <strong>Prescription:</strong> {checkout.prescription.originalname}
+                                </p>
                                 {checkout.status === 'Confirmed' ? (
-                                    <p className="text-green-500"><strong>Status:</strong> Confirmed</p>
+                                    <p className="text-green-600 font-semibold">
+                                        <strong>Status:</strong> Confirmed
+                                    </p>
                                 ) : checkout.status === 'Cancelled' ? (
-                                    <p className="text-red-500"><strong>Status:</strong> Cancelled</p>
+                                    <p className="text-red-600 font-semibold">
+                                        <strong>Status:</strong> Cancelled
+                                    </p>
                                 ) : (
-                                    <>
+                                    <div className="flex space-x-4 mt-4">
                                         <button
                                             onClick={() => handleConfirmOrder(checkout._id)}
-                                            className="bg-teal-500 text-white px-4 py-2 rounded mt-2 mr-4"
+                                            className="flex-grow bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition"
                                         >
-                                            Confirm Order
+                                            Confirm
                                         </button>
                                         <button
                                             onClick={() => handleRejectOrder(checkout._id)}
-                                            className="bg-red-500 text-white px-4 py-2 rounded mt-2"
+                                            className="flex-grow bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition"
                                         >
-                                            Reject Order
+                                            Reject
                                         </button>
-                                    </>
+                                    </div>
                                 )}
                             </div>
-                        </li>
+                        </div>
                     ))}
-                </ul>
-
-            </div>
-            <div className='ml-[650px] mt-8 mb-8'>
-
-            <Link to="/pharmacist" className='bg-teal-500 text-white px-4 py-2 rounded hover:bg-teal-600 rounded-full '>Go Back</Link>
+                </div>
+                <div className="flex justify-center mt-8">
+                    <Link
+                        to="/pharmacist"
+                        className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-md transition"
+                    >
+                        Go Back
+                    </Link>
+                </div>
             </div>
         </>
     );

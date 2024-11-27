@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import {jwtDecode} from "jwt-decode";
+import {jwtDecode} from 'jwt-decode';
 
 const Navbar = () => {
     const [userType, setUserType] = useState(null);
@@ -32,19 +32,19 @@ const Navbar = () => {
     };
 
     return (
-        <div className="bg-gradient-to-r from-teal-400 via-teal-500 to-teal-600 shadow-md sticky top-0 z-50">
-            <nav className="container mx-auto flex justify-between items-center py-3 px-4 md:px-10">
+        <div className="bg-white shadow sticky top-0 z-50">
+            <nav className="container mx-auto flex justify-between items-center py-4 px-6 md:px-10">
                 {/* Logo */}
-                <div className="text-2xl font-extrabold text-white">
+                <div className="text-xl md:text-2xl font-bold text-gray-800">
                     Carewell Pharmacy
                 </div>
 
                 {/* Navigation Links */}
-                <ul className="hidden md:flex space-x-6 items-center text-white font-semibold">
+                <ul className="hidden md:flex space-x-6 items-center text-gray-700 font-medium">
                     <li>
                         <Link
                             to="/"
-                            className="hover:scale-105 transition-transform duration-200 hover:underline decoration-white"
+                            className="hover:text-blue-600 transition-colors duration-200"
                         >
                             Home
                         </Link>
@@ -52,7 +52,7 @@ const Navbar = () => {
                     <li>
                         <Link
                             to="/products"
-                            className="hover:scale-105 transition-transform duration-200 hover:underline decoration-white"
+                            className="hover:text-blue-600 transition-colors duration-200"
                         >
                             Products
                         </Link>
@@ -60,7 +60,7 @@ const Navbar = () => {
                     <li>
                         <Link
                             to="/about"
-                            className="hover:scale-105 transition-transform duration-200 hover:underline decoration-white"
+                            className="hover:text-blue-600 transition-colors duration-200"
                         >
                             About Us
                         </Link>
@@ -69,7 +69,7 @@ const Navbar = () => {
                         <li>
                             <Link
                                 to="/admin"
-                                className="hover:scale-105 transition-transform duration-200 hover:underline decoration-white"
+                                className="hover:text-blue-600 transition-colors duration-200"
                             >
                                 Dashboard
                             </Link>
@@ -79,7 +79,7 @@ const Navbar = () => {
                         <li>
                             <Link
                                 to="/contact"
-                                className="hover:scale-105 transition-transform duration-200 hover:underline decoration-white"
+                                className="hover:text-blue-600 transition-colors duration-200"
                             >
                                 Contact Us
                             </Link>
@@ -92,14 +92,14 @@ const Navbar = () => {
                     {userType ? (
                         <button
                             onClick={handleLogout}
-                            className="bg-white text-teal-600 text-sm px-4 py-2 rounded-full font-bold shadow hover:bg-gray-100 hover:text-teal-700 hover:scale-105 transition-transform duration-200"
+                            className="bg-blue-500 text-white text-sm px-4 py-2 rounded-full font-semibold shadow hover:bg-blue-600 hover:scale-105 transition-transform duration-200"
                         >
                             Logout
                         </button>
                     ) : (
                         <Link
                             to="/login"
-                            className="bg-white text-teal-600 text-sm px-4 py-2 rounded-full font-bold shadow hover:bg-gray-100 hover:text-teal-700 hover:scale-105 transition-transform duration-200"
+                            className="bg-blue-500 text-white text-sm px-4 py-2 rounded-full font-semibold shadow hover:bg-blue-600 hover:scale-105 transition-transform duration-200"
                         >
                             Login
                         </Link>
