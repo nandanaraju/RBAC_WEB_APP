@@ -87,7 +87,7 @@ The Online Pharmacy Web Application is a digital platform for purchasing medicin
    ```
 4.**Docker Setup**: Run the following command:
 ```
-docker-compose up --build
+docker compose up --build
 ```
 5.**Access the Application** 
 Open http://localhost:3001 in your browser.
